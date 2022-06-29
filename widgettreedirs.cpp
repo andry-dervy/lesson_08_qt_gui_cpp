@@ -2,10 +2,14 @@
 #include <QVBoxLayout>
 #include <QMouseEvent>
 #include <QDockWidget>
+#include <QLineEdit>
+#include <QPushButton>
+#include "toolbarelementsfactory.h"
 
-WidgetTreeDirs::WidgetTreeDirs(QWidget *parent) : QWidget(parent)
+WidgetTreeDirsSingleton::WidgetTreeDirsSingleton(QWidget *parent)
+    : QWidget(parent)
 {
-    auto vBoxLayout = new QVBoxLayout(this);
+    auto vBoxLayout = new QVBoxLayout();
     setLayout(vBoxLayout);
 
     model = new FileSystemModel(this);
@@ -19,13 +23,30 @@ WidgetTreeDirs::WidgetTreeDirs(QWidget *parent) : QWidget(parent)
     treeView = new QTreeView(this);
     treeView->setModel(model);
     treeView->setCurrentIndex(model->index(QDir::currentPath()));
+    setEventFilter(treeView,this);
 
     vBoxLayout->addWidget(treeView);
 
-    setEventFilter(treeView,this);
+    auto hBoxLayout = new QHBoxLayout();
+    vBoxLayout->addLayout(hBoxLayout);
+    auto leFindPhrase = new QLineEdit(this);
+    hBoxLayout->addWidget(leFindPhrase);
+
+    auto pbFind = ToolbarElementsFactory<QPushButton>::create("pbFind",this,false,QPixmap());
+    Q_ASSERT(pbFind != nullptr);
+    hBoxLayout->addWidget(*pbFind);
+
+    retranslate();
 }
 
-void WidgetTreeDirs::setEventFilter(QWidget* wdgt, QObject* eventFilter)
+WidgetTreeDirsSingleton* WidgetTreeDirsSingleton::getInstance(QWidget* parent)
+{
+    static WidgetTreeDirsSingleton* theInstance
+            = new WidgetTreeDirsSingleton(parent);
+    return theInstance;
+}
+
+void WidgetTreeDirsSingleton::setEventFilter(QWidget* wdgt, QObject* eventFilter)
 {
     if(wdgt == nullptr) return;
     wdgt->installEventFilter(eventFilter);
@@ -37,17 +58,19 @@ void WidgetTreeDirs::setEventFilter(QWidget* wdgt, QObject* eventFilter)
     }
 }
 
-void WidgetTreeDirs::emitOpenFile(QString& fileName)
+void WidgetTreeDirsSingleton::emitOpenFile(QString& fileName)
 {
     emit openFile(fileName);
 }
 
-void WidgetTreeDirs::retranslate()
+void WidgetTreeDirsSingleton::retranslate()
 {
     if(model != nullptr) model->retranslate();
+
+    ToolbarElementsFactory<QPushButton>::setText(this,"pbFind",tr("Поиск"));
 }
 
-bool WidgetTreeDirs::eventFilter(QObject* obj, QEvent* event)
+bool WidgetTreeDirsSingleton::eventFilter(QObject* obj, QEvent* event)
 {
     switch(event->type())
     {

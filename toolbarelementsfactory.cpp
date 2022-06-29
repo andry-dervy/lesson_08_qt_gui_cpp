@@ -54,6 +54,17 @@ std::optional<QComboBox *> ToolbarElementsFactory<QComboBox>::create(const QStri
     return std::make_optional<QComboBox*>(t);
 }
 
+template<>
+std::optional<QPushButton *> ToolbarElementsFactory<QPushButton>::create(const QString &&nameObject, QWidget *parent, bool checkable, const QPixmap &&icon)
+{
+    Q_UNUSED(checkable);
+    Q_UNUSED(icon);
+    auto t = new QPushButton(parent);
+    if(!t) return std::nullopt;
+    t->setObjectName(nameObject);
+    return std::make_optional<QPushButton*>(t);
+}
+
 template<class T>
 void ToolbarElementsFactory<T>::setText(QObject *parent, const QString &&nameObject,const QString &&text)
 {
@@ -84,6 +95,22 @@ void ToolbarElementsFactory<QComboBox>::setText(QObject* parent,const QString&& 
     Q_ASSERT(parent != nullptr);
     auto combo = parent->findChild<QComboBox*>(nameObject);
     if(combo != nullptr) combo->setToolTip(text);
+}
+
+template<>
+void ToolbarElementsFactory<QToolButton>::setText(QObject* parent,const QString&& nameObject,const QString&& text)
+{
+    Q_ASSERT(parent != nullptr);
+    auto toolButton = parent->findChild<QToolButton*>(nameObject);
+    if(toolButton != nullptr) toolButton->setText(text);
+}
+
+template<>
+void ToolbarElementsFactory<QPushButton>::setText(QObject* parent,const QString&& nameObject,const QString&& text)
+{
+    Q_ASSERT(parent != nullptr);
+    auto pushButton = parent->findChild<QPushButton*>(nameObject);
+    if(pushButton != nullptr) pushButton->setText(text);//WindowTitle(text);
 }
 
 template<class T>

@@ -511,15 +511,12 @@ void MainWindow::retranslateMenuFile()
     ToolbarElementsFactory<QAction>::setText(this,"actSaveAs",tr("Сохранить файл как"));
     ToolbarElementsFactory<QAction>::setText(this,"actPrint",tr("Печатать..."));
 
-    auto tb_newFile = findChild<QToolButton*>("tb_newFile");
-    if(tb_newFile != nullptr) tb_newFile->setWindowTitle(tr("Новый файл"));
+    ToolbarElementsFactory<QToolButton>::setText(this,"tb_newFile",tr("Новый файл"));
 
-    auto toolBarOpenFile = findChild<QAction*>("toolBarOpenFile");
-    if(toolBarOpenFile != nullptr) toolBarOpenFile->setIconText(tr("Открыть текстовый файл"));
-    auto toolBarSaveFile = findChild<QAction*>("toolBarSaveFile");
-    if(toolBarSaveFile != nullptr) toolBarSaveFile->setIconText(tr("Сохранить файл"));
-    auto toolBarPrintFile = findChild<QAction*>("toolBarPrintFile");
-    if(toolBarPrintFile != nullptr) toolBarPrintFile->setIconText(tr("Печатать файл"));
+    ToolbarElementsFactory<QAction>::setText(this,"toolBarOpenFile",tr("Открыть текстовый файл"));
+    ToolbarElementsFactory<QAction>::setText(this,"toolBarSaveFile",tr("Сохранить файл"));
+    ToolbarElementsFactory<QAction>::setText(this,"toolBarPrintFile",tr("Открыть текстовый файл"));
+    ToolbarElementsFactory<QAction>::setText(this,"toolBarOpenFile",tr("Печатать файл"));
 
     setReadableWritable(rw);
 }
@@ -661,8 +658,8 @@ void MainWindow::viewTreeDirs()
 {
     if(dockTreeDirs == nullptr)
     {
-        auto wdgtTreeDirs = new WidgetTreeDirs(this);
-        connect(wdgtTreeDirs, &WidgetTreeDirs::openFile, this, &MainWindow::openFilePathFromFileSystemModel);
+        auto wdgtTreeDirs = WidgetTreeDirsSingleton::getInstance(this);
+        connect(wdgtTreeDirs, &WidgetTreeDirsSingleton::openFile, this, &MainWindow::openFilePathFromFileSystemModel);
         dockTreeDirs = new QDockWidget(this);
         dockTreeDirs->setWidget(wdgtTreeDirs);
         auto ef = new TreeDirsEventFilter();

@@ -20,11 +20,19 @@ private:
     QMap<int, QVariant> headers;
 };
 
-class WidgetTreeDirs : public QWidget
+class WidgetTreeDirsSingleton : public QWidget
 {
     Q_OBJECT
+private:
+    WidgetTreeDirsSingleton(QWidget *parent = nullptr);
+    ~WidgetTreeDirsSingleton() = default;
+    WidgetTreeDirsSingleton(const WidgetTreeDirsSingleton& root) = delete;
+    WidgetTreeDirsSingleton& operator=(const WidgetTreeDirsSingleton&) = delete;
+    WidgetTreeDirsSingleton(WidgetTreeDirsSingleton&& root) = delete;
+    WidgetTreeDirsSingleton& operator=(WidgetTreeDirsSingleton&&) = delete;
+
 public:
-    explicit WidgetTreeDirs(QWidget *parent = nullptr);
+    static WidgetTreeDirsSingleton* getInstance(QWidget *parent);
     void emitOpenFile(QString& fileName);
     void retranslate();
 private:

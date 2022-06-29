@@ -39,7 +39,7 @@ private:
     KeyPressEventFilter* keyPressEvent;
     WidgetSettings* wdgtSettings;
     QDockWidget* dockTreeDirs;
-    WidgetTreeDirs* wdgtTreeDirs;
+    WidgetTreeDirsSingleton* wdgtTreeDirs;
     QToolBar* tbTextFormate;
 
     ReadableWritable rw;
