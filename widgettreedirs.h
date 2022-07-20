@@ -6,6 +6,32 @@
 #include <QTreeWidgetItem>
 #include <QFileSystemModel>
 #include <QEvent>
+#include <QStringListModel>
+#include <QThread>
+#include <QMutex>
+
+class Finder: public QObject
+{
+    Q_OBJECT
+public:
+    Finder(QDir aDir,QString aFindText);
+    ~Finder() override {}
+    void stopSearching();
+
+private:
+    QDir rootDir;
+    QString findText;
+    bool isSearching;
+    QMutex mtxIsSearching;
+
+public slots:
+    void find();
+    void stop();
+
+signals:
+    void finished();
+    void sendMatched(QString path);
+};
 
 class FileSystemModel: public QFileSystemModel
 {
@@ -37,7 +63,12 @@ public:
     void retranslate();
 private:
     QTreeView* treeView;
-    FileSystemModel *model;
+    FileSystemModel *modelFileSystem;
+    QStringListModel* modelListResults;
+    QLineEdit* leFindPhrase;
+
+    bool isSearching;
+    Finder* finder;
 
     void setEventFilter(QWidget* wdgt, QObject* eventFilter);
 
@@ -45,6 +76,11 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event) override;
 signals:
     void openFile(QString& fileName);
+
+private slots:
+    void pbFindClicked();
+    void receiveMatched(QString path);
+    void finishedFind();
 };
 
 class TreeDirsEventFilter: public QObject

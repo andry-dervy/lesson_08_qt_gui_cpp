@@ -5,36 +5,49 @@
 #include <QLineEdit>
 #include <QPushButton>
 #include "toolbarelementsfactory.h"
+#include <QDebug>
+#include <QListView>
+#include <QSplitter>
+
+extern template std::optional<QPushButton *> ToolbarElementsFactory<QPushButton>::create(const QString &&nameObject, QWidget *parent, bool checkable, const QPixmap &&icon);
+extern template void ToolbarElementsFactory<QPushButton>::setText(QObject* parent,const QString&& nameObject,const QString&& text);
 
 WidgetTreeDirsSingleton::WidgetTreeDirsSingleton(QWidget *parent)
     : QWidget(parent)
+    , isSearching(false)
+    , finder(nullptr)
 {
     auto vBoxLayout = new QVBoxLayout();
     setLayout(vBoxLayout);
 
-    model = new FileSystemModel(this);
-    model->setRootPath(QDir::currentPath());
+    modelFileSystem = new FileSystemModel(this);
+    modelFileSystem->setRootPath(QDir::currentPath());
     QStringList sList;
     sList << "*.htxt";
-    model->setNameFilters(sList);
-    model->setNameFilterDisables(false);
-    model->retranslate();
+    modelFileSystem->setNameFilters(sList);
+    modelFileSystem->setNameFilterDisables(false);
+    modelFileSystem->retranslate();
 
     treeView = new QTreeView(this);
-    treeView->setModel(model);
-    treeView->setCurrentIndex(model->index(QDir::currentPath()));
+    treeView->setModel(modelFileSystem);
+    treeView->setCurrentIndex(modelFileSystem->index(QDir::currentPath()));
     setEventFilter(treeView,this);
-
     vBoxLayout->addWidget(treeView);
 
     auto hBoxLayout = new QHBoxLayout();
     vBoxLayout->addLayout(hBoxLayout);
-    auto leFindPhrase = new QLineEdit(this);
+    leFindPhrase = new QLineEdit(this);
     hBoxLayout->addWidget(leFindPhrase);
 
     auto pbFind = ToolbarElementsFactory<QPushButton>::create("pbFind",this,false,QPixmap());
     Q_ASSERT(pbFind != nullptr);
+    connect(*pbFind,&QPushButton::clicked,this,&WidgetTreeDirsSingleton::pbFindClicked);
     hBoxLayout->addWidget(*pbFind);
+
+    auto listResults = new QListView(this);
+    vBoxLayout->addWidget(listResults);
+    modelListResults = new QStringListModel(this);
+    listResults->setModel(modelListResults);
 
     retranslate();
 }
@@ -65,7 +78,7 @@ void WidgetTreeDirsSingleton::emitOpenFile(QString& fileName)
 
 void WidgetTreeDirsSingleton::retranslate()
 {
-    if(model != nullptr) model->retranslate();
+    if(modelFileSystem != nullptr) modelFileSystem->retranslate();
 
     ToolbarElementsFactory<QPushButton>::setText(this,"pbFind",tr("Поиск"));
 }
@@ -77,9 +90,9 @@ bool WidgetTreeDirsSingleton::eventFilter(QObject* obj, QEvent* event)
     case QEvent::MouseButtonDblClick:
     {
         auto indx = treeView->currentIndex();
-        if(indx.isValid() && !model->isDir(indx))
+        if(indx.isValid() && !modelFileSystem->isDir(indx))
         {
-            QString path = model->filePath(indx);
+            QString path = modelFileSystem->filePath(indx);
             emit openFile(path);
             return true;
         }
@@ -89,6 +102,56 @@ bool WidgetTreeDirsSingleton::eventFilter(QObject* obj, QEvent* event)
         break;
     }
     return QObject::eventFilter(obj, event);
+}
+
+void WidgetTreeDirsSingleton::pbFindClicked()
+{
+    if(isSearching)
+    {
+        finder->stopSearching();
+        finder = nullptr;
+        ToolbarElementsFactory<QPushButton>::setText(this,"pbFind",tr("Поиск"));
+        isSearching = false;
+        return;
+    }
+
+    auto indx = treeView->currentIndex();
+    if(indx.isValid() && modelFileSystem->isDir(indx))
+    {
+        modelListResults->removeRows(0,modelListResults->rowCount());
+
+        QString path{modelFileSystem->filePath(indx)};
+        QDir dir{path};
+
+        finder = new Finder(dir,leFindPhrase->text());
+        QThread* thread = new QThread();
+        finder->moveToThread(thread);
+
+        connect(thread, &QThread::started, finder, &Finder::find);
+        connect(finder, &Finder::finished, thread, &QThread::quit);
+        connect(finder, &Finder::finished, finder, &Finder::deleteLater);
+        connect(finder, &Finder::finished, this, &WidgetTreeDirsSingleton::finishedFind);
+        connect(thread, &QThread::finished, thread, &QThread::deleteLater);
+        connect(finder, &Finder::sendMatched, this, &WidgetTreeDirsSingleton::receiveMatched);
+
+        ToolbarElementsFactory<QPushButton>::setText(this,"pbFind",tr("Стоп"));
+        isSearching = true;
+
+        thread->start();
+    }
+}
+
+void WidgetTreeDirsSingleton::receiveMatched(QString path)
+{
+    modelListResults->insertRows(0,1);
+    QModelIndex indx = modelListResults->index(0);
+    modelListResults->setData(indx,path);
+}
+
+void WidgetTreeDirsSingleton::finishedFind()
+{
+    ToolbarElementsFactory<QPushButton>::setText(this,"pbFind",tr("Поиск"));
+    isSearching = false;
 }
 
 FileSystemModel::FileSystemModel(QWidget *parent)
@@ -131,4 +194,33 @@ bool TreeDirsEventFilter::eventFilter(QObject *obj, QEvent *event)
         emit closeDock();
     }
     return false;
+}
+
+Finder::Finder(QDir aDir, QString aFindText)
+    :rootDir(aDir)
+    ,findText(aFindText)
+    ,isSearching(true)
+{}
+
+void Finder::stopSearching()
+{
+    mtxIsSearching.lock();
+    isSearching = false;
+    mtxIsSearching.unlock();
+}
+
+void Finder::find()
+{
+    QDirIterator it{rootDir.path(),QStringList() << findText,QDir::Files,QDirIterator::Subdirectories};
+    while(isSearching && it.hasNext())
+    {
+        emit sendMatched(it.next());
+        QThread::msleep(1);
+    }
+    emit finished();
+}
+
+void Finder::stop()
+{
+    stopSearching();
 }
