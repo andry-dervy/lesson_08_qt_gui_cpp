@@ -46,6 +46,7 @@ public slots:
     void textColorBackground();
     void textClearFormat();
     void textCopyFormat();
+    void pasteDate();
     void activatedDocumentView(DocumentView* docView);
     void currentAlignment(Qt::Alignment alignment);
     void eraseTextDocumentView(TextDocumentView *txtDocView);

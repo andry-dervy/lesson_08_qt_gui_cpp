@@ -37,22 +37,22 @@
 <context>
     <name>FileSystemModel</name>
     <message>
-        <location filename="widgettreedirs.cpp" line="95"/>
+        <location filename="widgettreedirs.cpp" line="181"/>
         <source>Название</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widgettreedirs.cpp" line="96"/>
+        <location filename="widgettreedirs.cpp" line="182"/>
         <source>Размер</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widgettreedirs.cpp" line="97"/>
+        <location filename="widgettreedirs.cpp" line="183"/>
         <source>Тип</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="widgettreedirs.cpp" line="98"/>
+        <location filename="widgettreedirs.cpp" line="184"/>
         <source>Дата изменения</source>
         <translation></translation>
     </message>
@@ -60,7 +60,7 @@
 <context>
     <name>GraphDocumentView</name>
     <message>
-        <location filename="graphdocumentview.cpp" line="162"/>
+        <location filename="graphdocumentview.cpp" line="159"/>
         <source>Без названия</source>
         <translation>Без названия</translation>
     </message>
@@ -80,7 +80,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="568"/>
+        <location filename="mainwindow.cpp" line="565"/>
         <source>Простой текстовый редактор</source>
         <translation></translation>
     </message>
@@ -91,7 +91,7 @@
     </message>
     <message>
         <location filename="mainwindow.cpp" line="503"/>
-        <location filename="mainwindow.cpp" line="515"/>
+        <location filename="mainwindow.cpp" line="514"/>
         <source>Новый файл</source>
         <translation></translation>
     </message>
@@ -104,7 +104,7 @@
         <location filename="mainwindow.cpp" line="315"/>
         <location filename="mainwindow.cpp" line="340"/>
         <location filename="mainwindow.cpp" line="510"/>
-        <location filename="mainwindow.cpp" line="520"/>
+        <location filename="mainwindow.cpp" line="517"/>
         <source>Сохранить файл</source>
         <translation></translation>
     </message>
@@ -137,87 +137,88 @@
         <translation></translation>
     </message>
     <message>
+        <location filename="mainwindow.cpp" line="516"/>
         <location filename="mainwindow.cpp" line="518"/>
         <source>Открыть текстовый файл</source>
         <translation>Открыть текстовый файл</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="529"/>
+        <location filename="mainwindow.cpp" line="526"/>
         <source>&amp;Вид</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="531"/>
+        <location filename="mainwindow.cpp" line="528"/>
         <source>Дерево каталогов</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="533"/>
+        <location filename="mainwindow.cpp" line="530"/>
         <source>Формат текста</source>
         <translation>Формат текста</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="534"/>
+        <location filename="mainwindow.cpp" line="531"/>
         <source>Рисование</source>
         <translation>Рисование</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="539"/>
+        <location filename="mainwindow.cpp" line="536"/>
         <source>&amp;Настройки</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="541"/>
+        <location filename="mainwindow.cpp" line="538"/>
         <source>Установка горячик клавиш</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="552"/>
+        <location filename="mainwindow.cpp" line="549"/>
         <source>&amp;Язык интерфейса</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="554"/>
+        <location filename="mainwindow.cpp" line="551"/>
         <source>Русский</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="556"/>
+        <location filename="mainwindow.cpp" line="553"/>
         <source>Английский</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="561"/>
+        <location filename="mainwindow.cpp" line="558"/>
         <source>&amp;Справка</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="563"/>
+        <location filename="mainwindow.cpp" line="560"/>
         <source>Вызов справки</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="543"/>
+        <location filename="mainwindow.cpp" line="540"/>
         <source>&amp;Выбор темы</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="545"/>
+        <location filename="mainwindow.cpp" line="542"/>
         <source>Тема MailSy</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="547"/>
+        <location filename="mainwindow.cpp" line="544"/>
         <source>Тема Integrid</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="522"/>
+        <location filename="mainwindow.cpp" line="519"/>
         <source>Печатать файл</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="577"/>
+        <location filename="mainwindow.cpp" line="574"/>
         <source>Справка</source>
         <translation></translation>
     </message>
@@ -243,49 +244,54 @@
 <context>
     <name>TextFormateToolBarSingleton</name>
     <message>
-        <location filename="textformatetoolbarsingleton.cpp" line="17"/>
+        <location filename="textformatetoolbarsingleton.cpp" line="18"/>
         <source>Выровнять влево</source>
         <translation>Выровнять влево</translation>
     </message>
     <message>
-        <location filename="textformatetoolbarsingleton.cpp" line="18"/>
+        <location filename="textformatetoolbarsingleton.cpp" line="19"/>
         <source>По центру</source>
         <translation>По центру</translation>
     </message>
     <message>
-        <location filename="textformatetoolbarsingleton.cpp" line="19"/>
+        <location filename="textformatetoolbarsingleton.cpp" line="20"/>
         <source>Выровнять вправо</source>
         <translation>Выровнять вправо</translation>
     </message>
     <message>
-        <location filename="textformatetoolbarsingleton.cpp" line="20"/>
+        <location filename="textformatetoolbarsingleton.cpp" line="21"/>
         <source>По ширине</source>
         <translation>По ширине</translation>
     </message>
     <message>
-        <location filename="textformatetoolbarsingleton.cpp" line="21"/>
+        <location filename="textformatetoolbarsingleton.cpp" line="22"/>
         <source>Шрифт</source>
         <translation>Шрифт</translation>
     </message>
     <message>
-        <location filename="textformatetoolbarsingleton.cpp" line="22"/>
+        <location filename="textformatetoolbarsingleton.cpp" line="23"/>
         <source>Цвет шрифта</source>
         <translation>Цвет шрифта</translation>
     </message>
     <message>
-        <location filename="textformatetoolbarsingleton.cpp" line="23"/>
+        <location filename="textformatetoolbarsingleton.cpp" line="24"/>
         <source>Цвет фона</source>
         <translation>Цвет фона</translation>
     </message>
     <message>
-        <location filename="textformatetoolbarsingleton.cpp" line="24"/>
+        <location filename="textformatetoolbarsingleton.cpp" line="25"/>
         <source>Очистка формата</source>
         <translation>Очистка формата</translation>
     </message>
     <message>
-        <location filename="textformatetoolbarsingleton.cpp" line="25"/>
+        <location filename="textformatetoolbarsingleton.cpp" line="26"/>
         <source>Копировать формат</source>
         <translation>Копировать формат</translation>
+    </message>
+    <message>
+        <location filename="textformatetoolbarsingleton.cpp" line="27"/>
+        <source>Вставить дату</source>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -313,6 +319,21 @@
     <message>
         <location filename="widgetsettings.cpp" line="56"/>
         <source>Выход</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>WidgetTreeDirsSingleton</name>
+    <message>
+        <location filename="widgettreedirs.cpp" line="83"/>
+        <location filename="widgettreedirs.cpp" line="113"/>
+        <location filename="widgettreedirs.cpp" line="153"/>
+        <source>Поиск</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="widgettreedirs.cpp" line="137"/>
+        <source>Стоп</source>
         <translation></translation>
     </message>
 </context>

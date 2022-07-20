@@ -22,5 +22,6 @@
         <file>icons/graphics/star.png</file>
         <file>icons/graphics/colorgraphitem.png</file>
         <file>icons/graphics/colorgraphitemborder.png</file>
+        <file>icons/textformate/pastedate.png</file>
     </qresource>
 </RCC>

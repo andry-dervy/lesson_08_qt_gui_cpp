@@ -1,5 +1,6 @@
 #include "textformatetoolbarsingleton.h"
 #include "toolbarelementsfactory.h"
+#include "QDateTime"
 #include "QDebug"
 
 extern template void ToolbarElementsFactory<QAction>::setText(QObject* obj,const QString&& nameObject,const QString&& text);
@@ -23,6 +24,7 @@ void TextFormateToolBarSingleton::retranslate()
     ToolbarElementsFactory<QAction>::setText(this,"actColorBackground",tr("Цвет фона"));
     ToolbarElementsFactory<QAction>::setText(this,"actClearFormat",tr("Очистка формата"));
     ToolbarElementsFactory<QAction>::setText(this,"actCopyFormat",tr("Копировать формат"));
+    ToolbarElementsFactory<QAction>::setText(this,"actPasteDate",tr("Вставить дату"));
 }
 
 TextFormateToolBarSingleton::TextFormateToolBarSingleton(MainWindow* parent)
@@ -81,6 +83,12 @@ TextFormateToolBarSingleton::TextFormateToolBarSingleton(MainWindow* parent)
                 "actCopyFormat", this,true,QPixmap(":/icons/textformate/copyformat.png"));
     Q_ASSERT(act != nullptr);
     connect(*act,SIGNAL(triggered()),this,SLOT(textCopyFormat()));
+    addAction(*act);
+
+    act = ToolbarElementsFactory<QAction>::create(
+                "actPasteDate", this,false,QPixmap(":/icons/textformate/pastedate.png"));
+    Q_ASSERT(act != nullptr);
+    connect(*act,SIGNAL(triggered()),this,SLOT(pasteDate()));
     addAction(*act);
 
     retranslate();
@@ -231,6 +239,14 @@ void TextFormateToolBarSingleton::textCopyFormat()
                     pr->second.charFormat(),
                     pr->first->te().alignment());
     }
+}
+
+void TextFormateToolBarSingleton::pasteDate()
+{
+    auto pr = getCursorCurrentSubWindow();
+    if(!pr) return;
+
+    pr->second.insertText(QDateTime::currentDateTime().toString("dd:MM:yyyy hh:mm:ss"));
 }
 
 void TextFormateToolBarSingleton::activatedDocumentView(DocumentView* docView)
