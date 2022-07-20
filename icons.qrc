@@ -18,23 +18,6 @@
         <file>icons/textformate/copyformat.png</file>
         <file>icons/graphics/line.png</file>
         <file>icons/graphics/rectangle.png</file>
-        <file>documentview.cpp</file>
-        <file>documentview.h</file>
-        <file>drawgraphtoolbarsingleton.cpp</file>
-        <file>drawgraphtoolbarsingleton.h</file>
-        <file>keypresseventfilter.cpp</file>
-        <file>keypresseventfilter.h</file>
-        <file>languagevisitor.cpp</file>
-        <file>languagevisitor.h</file>
-        <file>main.cpp</file>
-        <file>mainwindow.cpp</file>
-        <file>mainwindow.h</file>
-        <file>textformatetoolbarsingleton.cpp</file>
-        <file>textformatetoolbarsingleton.h</file>
-        <file>widgetsettings.cpp</file>
-        <file>widgetsettings.h</file>
-        <file>widgettreedirs.cpp</file>
-        <file>widgettreedirs.h</file>
         <file>icons/graphics/elipse.png</file>
         <file>icons/graphics/star.png</file>
         <file>icons/graphics/colorgraphitem.png</file>
